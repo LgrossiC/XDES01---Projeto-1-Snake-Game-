@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 bool gameOver;
+const int altura = 20;
+const int largura = 20;
+int x, y, frutaX, frutaY, pontos;
 
 void Configuraçao()
 {
