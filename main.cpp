@@ -54,6 +54,17 @@ void Grafico()
         {
             if (l == 0)
                 cout << "#";
+            
+            /* se a posição for igual a posição da cabeça da cobra: cout cabeça da cobra "O" */
+            if (h == y && l == x)
+                cout << "O";
+            
+            /* se a posição for igual a posição da fruta: cout fruta "F" */
+            else if (h == frutaY && l == frutaX)
+                cout << "F";
+            
+            /* se a posição =! (x,y) && (frutaX, frutaY): cout espaço em branco " " */
+            else    
                 cout << " ";
 
             if (l == largura - 1)
@@ -83,9 +94,11 @@ int main()
     /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar, 
     permitindo que o usuário jogue novamente sem ter que compilar o código múltiplas vezes. */
     
-    cout << "0 - Fechar jogo"; 
-    cout << endl;
+    
     cout << "1 - Jogar\n";
+    cout << "2 - Ranking\n";
+    cout << "0 - Fechar jogo\n"; 
+    
     
     cin >> escolha;
 
@@ -96,6 +109,9 @@ int main()
             return 0;
         case 1:
             cout << "teste";
+            break;
+        case 2:
+            cout << "RANKING";
             break;
     }
 
