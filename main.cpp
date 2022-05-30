@@ -1,4 +1,7 @@
 #include <iostream>
+#include <conio.h>
+
+#define esc 27
 
 using namespace std;
 bool gameOver;
@@ -81,10 +84,70 @@ void Grafico()
 
 void Usabilidade()
 {
-
+    /* verifica se alguma tecla foi pressionada e retorna 1 caso sim e 0 caso não.*/
+    if (kbhit())
+    {
+        /* 
+        
+        retorna o valor 1 para tecla pressionada
+        
+        switch para as seguintes teclas:
+        w -> cima
+        a -> esquerda
+        s -> baixo
+        d -> direita 
+         
+        */
+        switch (_getch())
+        {
+        /* define o valor da enum "dir" para "esquerda"*/
+        case 'a':
+            dir = esquerda;
+            break;
+        /* define o valor da enum "dir" para "direita"*/
+        case 'd':
+            dir = direita;
+            break;
+        /* define o valor da enum "dir" para "cima"*/    
+        case 'w':
+            dir = cima;
+            break;
+        /* define o valor da enum "dir" para "baixo"*/
+        case 's':
+            dir = baixo;
+            break;
+        /* define o valor de gameOver para true para finalizar o jogo*/
+        case 'x':
+            gameOver = true;
+            break;
+        case esc:
+            gameOver = true;
+            break;
+        }
+    }
 }
 void Logica()
-{
+{   
+    /* switch na "enum dir" para que, por exemplo, se o valor atribuído a a "enum dir" for "esquerda" o valor x (que define a posição da cabeça da cobra) 
+    vai receber x-1, ou seja vai movimentar uma casa para a esquerda e assim por diante... */
+    switch (dir)
+    {
+       case esquerda:
+       x--;
+       break; 
+
+       case direita:
+       x++;
+       break; 
+
+       case cima:
+       y--;
+       break; 
+
+       case baixo:
+       y++;
+       break; 
+    }
 
 }
 int main()
@@ -112,7 +175,7 @@ int main()
             break;
         case 2:
             cout << "RANKING";
-            break;
+            return 0;
     }
 
     Configuracao();
