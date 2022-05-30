@@ -1,9 +1,10 @@
 #include <iostream>
+
 using namespace std;
 bool gameOver;
 const int altura = 20;
 const int largura = 20;
-int x, y, frutaX, frutaY, pontos;
+int x, y, frutaX, frutaY, pontos, escolha;
 
 /* Eu quero que a cobra se mova CONSTANTEMENTE para a posição indicada pelo jogador ao invés de fazer o usário pressionar varias vezes a DIRECAO que ele   
 quer movimentar a cobra. Essas direções porém, são fixas: Para a equerda,para a direita, para cima e para baixo. A unica forma que encontrei na internet 
@@ -77,6 +78,27 @@ void Logica()
 }
 int main()
 {
+
+
+    /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar, 
+    permitindo que o usuário jogue novamente sem ter que compilar o código múltiplas vezes. */
+    
+    cout << "0 - Fechar jogo"; 
+    cout << endl;
+    cout << "1 - Jogar\n";
+    
+    cin >> escolha;
+
+    switch(escolha)
+    {
+        case 0: 
+            cout << "Obrigado por jogar :)";
+            return 0;
+        case 1:
+            cout << "teste";
+            break;
+    }
+
     Configuracao();
     
     /* estrutura condicional "enquanto" para que enquanto o jogo não esteja em "gameOver" a função Configuração chame as outras funções necessárias */
