@@ -7,3 +7,12 @@ Você pode direcionar a cabeça para cima, baixo, esquerda e direita - e o corpo
 Frutinhas aparacem em lugares aleatórios da tela;
 Se a cobra comer uma das frutinhas, o tamanho do corpo da cobra aumenta;
 Se a cobra tocar o próprio corpo ou as margens da tela o jogo acaba; 
+
+Controles: 
+
+W -> Para cima;
+A -> Para a esquerda;
+S -> Para baixo;
+D -> Para a direita;
+
+Esc -> Fechar o jogo.
