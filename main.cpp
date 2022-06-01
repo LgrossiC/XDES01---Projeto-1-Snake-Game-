@@ -82,7 +82,7 @@ void Grafico()
     cout << endl;
 }
 
-void Usabilidade()
+void Logica()
 {
     /* verifica se alguma tecla foi pressionada e retorna 1 caso sim e 0 caso não.*/
     if (kbhit())
@@ -122,9 +122,7 @@ void Usabilidade()
             break;
         }
     }
-}
-void Logica()
-{
+
     /* switch na "enum dir" para que, por exemplo, se o valor atribuído a "enum dir" for "esquerda" o valor x (que define a posição da cabeça da cobra)
     vai receber x-1, ou seja vai movimentar uma casa para a esquerda e assim por diante... */
     switch (dir)
@@ -146,39 +144,40 @@ void Logica()
         break;
     }
 }
+
 int main()
 {
+    Configuracao();
 
     /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar,
     permitindo que o usuário jogue novamente sem ter que compilar o código múltiplas vezes. */
 
-    cout << "1 - Jogar\n";
-    cout << "2 - Ranking\n";
-    cout << "0 - Fechar jogo\n";
-
-    cin >> escolha;
-
-    switch (escolha)
+    do
     {
-    case 0:
-        cout << "Obrigado por jogar :)";
-        return 0;
-    case 1:
-        cout << "teste";
-        break;
-    case 2:
-        cout << "RANKING";
-        return 0;
-    }
+        cout << "1 - Jogar\n";
+        cout << "2 - Ranking\n";
+        cout << "0 - Fechar jogo\n";
 
-    Configuracao();
+        cin >> escolha;
 
-    /* estrutura condicional "enquanto" para que enquanto o jogo não esteja em "gameOver" a função Configuração chame as outras funções necessárias */
-    while (!gameOver)
-    {
-        Grafico();
-        Usabilidade();
-        Logica();
-    }
-    return 0;
+        switch (escolha)
+        {
+
+        case 1:
+            while (!gameOver)
+            {
+                /* estrutura condicional "enquanto" para que enquanto o jogo não esteja em "gameOver" a função Configuração chame as outras funções necessárias */
+                Grafico();
+                Logica();
+            }
+
+        case 2:
+            cout << "RANKING";
+            break;
+
+        case 0:
+            cout << "Obrigado por jogar :)";
+            return 0;
+        }
+    } while (escolha != 0);
 }
