@@ -1,6 +1,5 @@
 #include <iostream>
 #include <conio.h>
-#include <cstdlib>
 
 #define esc 27
 
@@ -9,13 +8,11 @@ using namespace std;
 bool gameOver;
 const int altura = 20;
 const int largura = 20;
-int cabecaX, cabecaY, frutaX, frutaY, pontos, escolha;
-int corpoX[100], corpoY[100];
-int nCorpo;
+int x, y, frutaX, frutaY, pontos, escolha;
 
-/* Eu quero que a cobra se mova CONSTANTEMENTE para a posicao indicada pelo jogador ao inves de fazer o usurio pressionar varias vezes a DIRECAO que ele
-quer movimentar a cobra. Essas direcoes porem, sao fixas: Para a equerda,para a direita, para cima e para baixo. A unica forma que encontrei na internet
-de fazer isso e utilizando enumeracao */
+/* Eu quero que a cobra se mova CONSTANTEMENTE para a posição indicada pelo jogador ao invés de fazer o usário pressionar varias vezes a DIRECAO que ele
+quer movimentar a cobra. Essas direções porém, são fixas: Para a equerda,para a direita, para cima e para baixo. A unica forma que encontrei na internet
+de fazer isso é utilizando enumeração */
 enum direcao
 {
     inicio = 0,
@@ -30,14 +27,14 @@ void Configuracao()
 {
     gameOver = false;
 
-    /* dir = inicio ( inicio = 0) para que a cobra nao se mova a menos que comecemos a move-la. */
+    /* dir = inicio ( inicio = 0) para que a cobra não se mova a menos que começemos a move-la. */
     dir = inicio;
 
-    /* definicao da posicao inicial da cabeca cobra no meio da tela */
-    cabecaX = altura / 2;
-    cabecaY = largura / 2;
+    /* definição da posição inicial da cabeça cobra no meio da tela */
+    x = altura / 2;
+    y = largura / 2;
 
-    /* definicao de posicoes aleatorias para as frutas */
+    /* definição de posições aleatórias para as frutas */
     frutaX = rand() % altura;
     frutaY = rand() % largura;
     pontos = 0;
@@ -45,10 +42,8 @@ void Configuracao()
 
 void Grafico()
 {
-    /* e necessario utilizar o comando "cls" dentro do console para nao imprimir um mapa atras do outro */
+    /* é necessário utilizar o comando "cls" dentro do console para não imprimir um mapa atrás do outro */
     system("cls");
-
-    cout << "Pontos: " << pontos << endl;
 
     /* loop "for" para borda de cima do mapa*/
     for (int l = 0; l < largura; l++)
@@ -63,25 +58,17 @@ void Grafico()
             if (l == 0)
                 cout << "#";
 
-            /* se a posicao for igual a posicao da cabeca da cobra: cout cabeca da cobra "O" */
-            if (h == cabecaY && l == cabecaX)
+            /* se a posição for igual a posição da cabeça da cobra: cout cabeça da cobra "O" */
+            if (h == y && l == x)
                 cout << "O";
 
-            /* se a posicao for igual a posicao da fruta: cout fruta "F" */
+            /* se a posição for igual a posição da fruta: cout fruta "F" */
             else if (h == frutaY && l == frutaX)
                 cout << "F";
 
+            /* se a posição =! (x,y) && (frutaX, frutaY): cout espaço em branco " " */
             else
-            {
-                for (int iCorpo = 0; iCorpo < nCorpo; iCorpo++)
-                {
-                    if (corpoX[iCorpo] == l && corpoY[iCorpo] == h)
-                    {
-                        cout << "o";
-                    }
-                }
                 cout << " ";
-            }
 
             if (l == largura - 1)
                 cout << "#";
@@ -97,21 +84,7 @@ void Grafico()
 
 void Logica()
 {
-    int xAnterior = corpoX[0];
-    int yAnterior = corpoY[0];
-    int Anterior2x, Anterior2y;
-
-    for (int i = 1; i < nCorpo; i++)
-    {
-        Anterior2x = corpoX[i];
-        Anterior2y = corpoY[i];
-        corpoX[i] = xAnterior;
-        corpoY[i] = yAnterior;
-        xAnterior = Anterior2x;
-        yAnterior = Anterior2y;
-    }
-
-    /* verifica se alguma tecla foi pressionada e retorna 1 caso sim e 0 caso nao.*/
+    /* verifica se alguma tecla foi pressionada e retorna 1 caso sim e 0 caso não.*/
     if (kbhit())
     {
         /*
@@ -150,42 +123,25 @@ void Logica()
         }
     }
 
-    /* switch na "enum dir" para que, por exemplo, se o valor atribuido a "enum dir" for "esquerda" o valor x (que define a posicao da cabeca da cobra)
+    /* switch na "enum dir" para que, por exemplo, se o valor atribuído a "enum dir" for "esquerda" o valor x (que define a posição da cabeça da cobra)
     vai receber x-1, ou seja vai movimentar uma casa para a esquerda e assim por diante... */
     switch (dir)
     {
     case esquerda:
-        cabecaX--;
+        x--;
         break;
 
     case direita:
-        cabecaX++;
+        x++;
         break;
 
     case cima:
-        cabecaY--;
+        y--;
         break;
 
     case baixo:
-        cabecaY++;
+        y++;
         break;
-    }
-
-    /* GAMEOVER se a bater nas paredes */
-    if (cabecaX > largura || cabecaX < 0 || cabecaY > altura || cabecaY < 0)
-        gameOver = true;
-
-    /* Se a posicao da cabeca da cobra for igual a posicao da fruta:
-    - mais um ponto
-    - fruta aparece em outro local do mapa
-    - tamanho do corpo aumenta */
-
-    if (cabecaX == frutaX && cabecaY == frutaY)
-    {
-        pontos += 1;
-        frutaX = rand() % altura;
-        frutaY = rand() % largura;
-        nCorpo++;
     }
 }
 
@@ -194,7 +150,7 @@ int main()
     Configuracao();
 
     /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar,
-    permitindo que o usuario jogue novamente sem ter que compilar o codigo miltiplas vezes. */
+    permitindo que o usuário jogue novamente sem ter que compilar o código múltiplas vezes. */
 
     do
     {
@@ -208,19 +164,9 @@ int main()
         {
 
         case 1:
-            /* e preciso setar "gameOver = false" para permitir que o jogador jogue novamente sem precisar fechar a aplicacao */
-            (gameOver = false);
-
-            /* redefinindo a posicao da cabeca da cobra, da fruta e a pontuacao caso o jogador jogue novamente */
-            cabecaX = altura / 2;
-            cabecaY = largura / 2;
-            pontos = 0;
-            frutaX = rand() % altura;
-            frutaY = rand() % largura;
-
             while (!gameOver)
             {
-                /* estrutura condicional "enquanto" para que enquanto o jogo nao esteja em "gameOver" a funcaoo Configuracaoo chame as outras funcoes necesserias */
+                /* estrutura condicional "enquanto" para que enquanto o jogo não esteja em "gameOver" a função Configuração chame as outras funções necessárias */
                 Grafico();
                 Logica();
             }
@@ -235,11 +181,3 @@ int main()
         }
     } while (escolha != 0);
 }
-
-/* Movimento esperado da cabeca/corpo da cobra
-
-OOO  ->  OO  -> O
-          O     O
-                O
-
-                */
