@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
 #include <cstdlib>
+#include <windows.h> //sleep
 
 #define esc 27
 
@@ -9,7 +10,7 @@ using namespace std;
 bool gameOver;
 const int altura = 20;
 const int largura = 20;
-int cabecaX, cabecaY, frutaX, frutaY, pontos, escolha;
+int cabecaX, cabecaY, frutaX, frutaY, pontos, escolha, record;
 int corpoX[100], corpoY[100];
 int nCorpo;
 
@@ -51,7 +52,7 @@ void Grafico()
     cout << "Pontos: " << pontos << endl;
 
     /* loop "for" para borda de cima do mapa*/
-    for (int l = 0; l < largura; l++)
+    for (int l = 0; l < largura+2; l++)
         cout << "#";
     cout << endl;
 
@@ -72,15 +73,19 @@ void Grafico()
                 cout << "F";
 
             else
-            {
+            {    
+                bool print = false;           
                 for (int iCorpo = 0; iCorpo < nCorpo; iCorpo++)
-                {
+                {                   
                     if (corpoX[iCorpo] == l && corpoY[iCorpo] == h)
                     {
                         cout << "o";
+                        print = true;
                     }
-                }
-                cout << " ";
+                    
+                } 
+                if (!print)
+                    cout << " ";               
             }
 
             if (l == largura - 1)
@@ -90,7 +95,7 @@ void Grafico()
     }
 
     /* loop "for" para borda de baixo do mapa*/
-    for (int l = 0; l < largura; l++)
+    for (int l = 0; l < largura+2; l++)
         cout << "#";
     cout << endl;
 }
@@ -181,6 +186,11 @@ void Logica()
     if (cabecaX > largura || cabecaX < 0 || cabecaY > altura || cabecaY < 0)
         gameOver = true;
 
+    /* GAMEOVER se a bater no corpo */
+    for (int i = 0; i < nCorpo; i++)
+        if (corpoX[i] == cabecaX && corpoY[i] == cabecaY)
+            gameOver = true;
+
     /* Se a posicao da cabeca da cobra for igual a posicao da fruta:
     - mais um ponto
     - fruta aparece em outro local do mapa
@@ -200,7 +210,7 @@ int main()
     Configuracao();
 
     /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar,
-    permitindo que o usuario jogue novamente sem ter que compilar o codigo miltiplas vezes. */
+    permitindo que o usuario jogue novamente sem ter que compilar o codigo multiplas vezes. */
 
     do
     {
@@ -229,6 +239,7 @@ int main()
                 /* estrutura condicional "enquanto" para que enquanto o jogo nao esteja em "gameOver" a funcaoo Configuracaoo chame as outras funcoes necesserias */
                 Grafico();
                 Logica();
+                Sleep(10);
             }
 
         case 2:
