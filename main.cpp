@@ -14,6 +14,8 @@ int cabecaX, cabecaY, frutaX, frutaY, pontos, escolha, record;
 int corpoX[100], corpoY[100];
 int nCorpo;
 
+FILE *f;
+
 /* Eu quero que a cobra se mova CONSTANTEMENTE para a posicao indicada pelo jogador ao inves de fazer o usurio pressionar varias vezes a DIRECAO que ele
 quer movimentar a cobra. Essas direcoes porem, sao fixas: Para a equerda,para a direita, para cima e para baixo. A unica forma que encontrei na internet
 de fazer isso e utilizando enumeracao */
@@ -50,9 +52,10 @@ void Grafico()
     system("cls");
 
     cout << "Pontos: " << pontos << endl;
+    cout << "Record: " << record << endl;
 
     /* loop "for" para borda de cima do mapa*/
-    for (int l = 0; l < largura+2; l++)
+    for (int l = 0; l < largura + 2; l++)
         cout << "#";
     cout << endl;
 
@@ -73,19 +76,18 @@ void Grafico()
                 cout << "F";
 
             else
-            {    
-                bool print = false;           
+            {
+                bool print = false;
                 for (int iCorpo = 0; iCorpo < nCorpo; iCorpo++)
-                {                   
+                {
                     if (corpoX[iCorpo] == l && corpoY[iCorpo] == h)
                     {
                         cout << "o";
                         print = true;
                     }
-                    
-                } 
+                }
                 if (!print)
-                    cout << " ";               
+                    cout << " ";
             }
 
             if (l == largura - 1)
@@ -95,15 +97,15 @@ void Grafico()
     }
 
     /* loop "for" para borda de baixo do mapa*/
-    for (int l = 0; l < largura+2; l++)
+    for (int l = 0; l < largura + 2; l++)
         cout << "#";
     cout << endl;
 }
 
 void Logica()
 {
-    
-    /* O rabo da cobra é composto por vários segmentos que devem seguir o movimento da cabeça. 
+
+    /* O rabo da cobra é composto por vários segmentos que devem seguir o movimento da cabeça.
     O primeiro segmento segue o movimento da cabeça
     O segundo segmento segue o movimento do primeiro segmento e assim por diante.*/
     int xAnterior = corpoX[0];
@@ -182,11 +184,11 @@ void Logica()
         break;
     }
 
-    /* GAMEOVER se a bater nas paredes */
+    /* GAMEOVER se bater nas paredes */
     if (cabecaX > largura || cabecaX < 0 || cabecaY > altura || cabecaY < 0)
         gameOver = true;
 
-    /* GAMEOVER se a bater no corpo */
+    /* GAMEOVER se bater no corpo */
     for (int i = 0; i < nCorpo; i++)
         if (corpoX[i] == cabecaX && corpoY[i] == cabecaY)
             gameOver = true;
@@ -207,6 +209,10 @@ void Logica()
 
 int main()
 {
+    f = fopen("record.txt", "r");
+    fscanf(f, "%d", &record);
+    fclose(f);
+
     Configuracao();
 
     /* menu que permite o jogador "fechar" ou "jogar" o jogo. esse menu precisa aparecer sempre que o jogo finalizar,
@@ -214,9 +220,9 @@ int main()
 
     do
     {
-        cout << "1 - Jogar\n";
-        cout << "2 - Ranking\n";
-        cout << "0 - Fechar jogo\n";
+        cout << "\n1 - Jogar\n";
+        
+        cout << "\n0 - Fechar jogo\n";
 
         cin >> escolha;
 
@@ -233,6 +239,7 @@ int main()
             pontos = 0;
             frutaX = rand() % altura;
             frutaY = rand() % largura;
+            nCorpo = 0;
 
             while (!gameOver)
             {
@@ -242,14 +249,25 @@ int main()
                 Sleep(10);
             }
 
+            if (pontos > record)
+            {
+                printf("\nNOVO RECORD !!!\n\n");
+                system("pause");
+                f = fopen("record.txt", "w");
+                fprintf(f, "%d", pontos);
+                fclose(f);
+            }
+
         case 2:
-            cout << "RANKING";
+            f = fopen("record.txt", "r");
+            fprintf(f, "%d", record);
+            fclose(f);
+            
             break;
 
         case 0:
-            cout << "Obrigado por jogar :)";
+            printf("\nObrigado por jogar :)");
             return 0;
         }
     } while (escolha != 0);
 }
-
