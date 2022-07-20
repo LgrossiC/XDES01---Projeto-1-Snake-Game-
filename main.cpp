@@ -221,7 +221,7 @@ int main()
     do
     {
         cout << "\n1 - Jogar\n";
-        
+
         cout << "\n0 - Fechar jogo\n";
 
         cin >> escolha;
@@ -230,6 +230,9 @@ int main()
         {
 
         case 1:
+            f = fopen("record.txt", "r");
+            fscanf(f, "%d", &record);
+            fclose(f);
             /* e preciso setar "gameOver = false" para permitir que o jogador jogue novamente sem precisar fechar a aplicacao */
             (gameOver = false);
 
@@ -262,7 +265,7 @@ int main()
             f = fopen("record.txt", "r");
             fprintf(f, "%d", record);
             fclose(f);
-            
+
             break;
 
         case 0:
